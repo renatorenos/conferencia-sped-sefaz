@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"/Users/renatosouza/Documents/Documentos - MacBook Pro de Renato/conferencia-entradas-sped\" && python3 -m venv .venv && .venv/bin/pip install xlrd openpyxl customtkinter 2>&1 | tail -10)"
+    ]
+  }
+}

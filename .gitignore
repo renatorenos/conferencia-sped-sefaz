@@ -1,0 +1,28 @@
+# Ambiente virtual
+.venv/
+.venv_build/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Build / PyInstaller
+build/
+dist/
+*.spec.bak
+
+# Dados sensíveis (arquivos fiscais)
+*.xls
+*.xlsx
+*.txt
+data/
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+*.swp
