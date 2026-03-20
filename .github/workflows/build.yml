@@ -36,12 +36,12 @@ jobs:
       - name: Upload do .exe como artefato
         uses: actions/upload-artifact@v4
         with:
-          name: ConferenciaSPED-Windows
-          path: dist/ConferenciaSPED.exe
+          name: ConferenciaSPEDSEFAZ-Windows
+          path: dist/ConferenciaSPEDSEFAZ.exe
           retention-days: 30
 
       - name: Criar Release (apenas em tags)
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/ConferenciaSPED.exe
+          files: dist/ConferenciaSPEDSEFAZ.exe

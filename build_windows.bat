@@ -17,6 +17,6 @@ pyinstaller conferencia_sped.spec --clean --noconfirm
 
 echo [4/4] Concluido!
 echo.
-echo O executavel esta em: dist\ConferenciaSPED.exe
+echo O executavel esta em: dist\ConferenciaSPEDSEFAZ.exe
 echo.
 pause

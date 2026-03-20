@@ -37,7 +37,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='ConferenciaSPED',
+    name='ConferenciaSPEDSEFAZ',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -50,5 +50,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=None,          # coloque 'icon.ico' aqui se tiver um ícone
+    icon='icon.ico',
 )
