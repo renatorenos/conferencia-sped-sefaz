@@ -6,6 +6,8 @@ import threading
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from datetime import datetime
+import os
+import sys
 import customtkinter as ctk
 
 from ..parsers.sped_parser import parse_sped, EmpresaSped
@@ -25,6 +27,7 @@ class App(ctk.CTk):
         self.title("Conferência SPED")
         self.geometry("1100x720")
         self.minsize(900, 600)
+        self._aplicar_icone()
 
         self._sped_path = tk.StringVar(value="")
         self._sefaz_path = tk.StringVar(value="")
@@ -35,6 +38,20 @@ class App(ctk.CTk):
         self._resultado: ResultadoConciliacao | None = None
 
         self._build_ui()
+
+    # ------------------------------------------------------------------ #
+    #  Ícone                                                               #
+    # ------------------------------------------------------------------ #
+
+    def _aplicar_icone(self):
+        # Resolve o caminho do icon.ico tanto em desenvolvimento quanto no .exe gerado pelo PyInstaller
+        base = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__ + "/../../..")))
+        ico = os.path.join(base, "icon.ico")
+        if os.path.exists(ico):
+            try:
+                self.iconbitmap(ico)               # ícone na barra de título e barra de tarefas
+            except Exception:
+                pass
 
     # ------------------------------------------------------------------ #
     #  Layout                                                              #

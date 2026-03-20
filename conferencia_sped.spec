@@ -14,6 +14,8 @@ a = Analysis(
     datas=[
         # Inclui todos os assets do CustomTkinter (temas, imagens)
         (ctk_path, 'customtkinter'),
+        # Ícone da janela
+        ('icon.ico', '.'),
     ],
     hiddenimports=[
         'customtkinter',
