@@ -42,8 +42,15 @@ class ResultTable(ctk.CTkFrame):
             selectmode="extended",
         )
 
+        self._linhas: list[tuple] = []
+        self._sort_col: str | None = None
+        self._sort_asc: bool = True
+
         for nome, largura in colunas:
-            self._tree.heading(nome, text=nome)
+            self._tree.heading(
+                nome, text=nome,
+                command=lambda c=nome: self._ordenar(c),
+            )
             self._tree.column(nome, width=largura, minwidth=60, anchor="w")
 
         vsb = ttk.Scrollbar(self, orient="vertical", command=self._tree.yview)
@@ -58,6 +65,20 @@ class ResultTable(ctk.CTkFrame):
         self.grid_columnconfigure(0, weight=1)
 
     def carregar(self, linhas: list[tuple]):
+        self._linhas = list(linhas)
+        self._sort_col = None
+        self._sort_asc = True
+        self._renderizar(self._linhas)
+        # Limpa indicadores de ordenação nos cabeçalhos
+        for col in self._ids:
+            texto = self._tree.heading(col)["text"].rstrip(" ▲▼")
+            self._tree.heading(col, text=texto)
+
+    def limpar(self):
+        self._linhas = []
+        self._tree.delete(*self._tree.get_children())
+
+    def _renderizar(self, linhas: list[tuple]):
         self._tree.delete(*self._tree.get_children())
         for i, linha in enumerate(linhas):
             tag = "par" if i % 2 == 0 else "impar"
@@ -65,5 +86,29 @@ class ResultTable(ctk.CTkFrame):
         self._tree.tag_configure("par", background="#2b2b2b")
         self._tree.tag_configure("impar", background="#242424")
 
-    def limpar(self):
-        self._tree.delete(*self._tree.get_children())
+    def _ordenar(self, coluna: str):
+        if self._sort_col == coluna:
+            self._sort_asc = not self._sort_asc
+        else:
+            self._sort_col = coluna
+            self._sort_asc = True
+
+        idx = self._ids.index(coluna)
+
+        def chave(linha):
+            v = linha[idx] if linha[idx] is not None else ""
+            # Tenta ordenar numericamente quando possível
+            try:
+                return (0, float(str(v).replace("R$", "").replace(".", "").replace(",", ".").strip()))
+            except ValueError:
+                return (1, str(v).lower())
+
+        ordenadas = sorted(self._linhas, key=chave, reverse=not self._sort_asc)
+        self._renderizar(ordenadas)
+
+        # Atualiza indicadores nos cabeçalhos
+        for col in self._ids:
+            texto = self._tree.heading(col)["text"].rstrip(" ▲▼")
+            if col == coluna:
+                texto += " ▲" if self._sort_asc else " ▼"
+            self._tree.heading(col, text=texto)
